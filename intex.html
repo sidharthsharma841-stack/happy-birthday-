@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full select-none">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 16th Birthday, Sanu! ✨</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;600;800;900&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        pacifico: ['Pacifico', 'cursive'],
+                    },
+                    colors: {
+                        night: '#030611',
+                        nightLight: '#0b1120',
+                        gold: '#fbbf24',
+                        neonPink: '#ff2a85',
+                        neonPurple: '#a855f7',
+                        chocDark: '#1a0c02',
+                        chocMid: '#281408',
+                        chocLight: '#3d1e0d',
+                        chocGlaze: '#100601',
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'flicker': 'flicker 0.15s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        flicker: {
+                            '0%': { opacity: '0.85', transform: 'scale(0.96) rotate(-2deg)' },
+                            '100%': { opacity: '1', transform: 'scale(1.08) rotate(2deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #030611;
+            color: #f8fafc;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            cursor: default;
+        }
+        
+        .glass {
+            background: rgba(11, 17, 32, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-gold {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        /* Stars Background */
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 3s) infinite ease-in-out;
+            opacity: var(--min-opacity, 0.2);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--min-opacity, 0.2); transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        .neon-text-pink {
+            text-shadow: 0 0 12px rgba(255, 42, 133, 0.8), 0 0 24px rgba(255, 42, 133, 0.5);
+        }
+
+        .neon-text-gold {
+            text-shadow: 0 0 12px rgba(251, 191, 36, 0.8), 0 0 24px rgba(251, 191, 36, 0.5);
+        }
+
+        .flame {
+            background: radial-gradient(ellipse at bottom, #ffee55 0%, #ff6600 55%, rgba(255, 0, 0, 0) 100%);
+            border-radius: 50% 50% 20% 20%;
+            transform-origin: center bottom;
+        }
+
+        #blackout-layer {
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pop-in {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Ensure smooth standard cursor on interactive elements */
+        button, input, a, [role="button"] {
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+<body class="min-h-full font-sans antialiased relative selection:bg-neonPink selection:text-white pb-12">
+
+    <div id="stars-container" onclick="launchRocketFromSky(event)" class="fixed inset-0 z-0 overflow-hidden cursor-pointer" title="Click night sky to launch fireworks!">
+        <!-- Moon -->
+        <div id="moon" class="absolute top-4 right-4 sm:top-8 sm:right-12 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-50 shadow-[0_0_60px_rgba(255,255,255,0.45)] opacity-90 flex items-center justify-center pointer-events-auto cursor-pointer active:scale-95 transition-transform duration-300 z-10" title="Tap moon for fireworks finale!">
+            <div class="w-full h-full rounded-full bg-gradient-to-tr from-slate-300 via-slate-100 to-amber-100 relative overflow-hidden">
+                <div class="absolute top-3 left-4 w-4 h-4 rounded-full bg-slate-300/40"></div>
+                <div class="absolute bottom-5 left-8 w-6 h-6 rounded-full bg-slate-300/30"></div>
+                <div class="absolute top-8 right-4 w-5 h-5 rounded-full bg-slate-300/35"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fireworks Canvas Layer (Pointer Events set to NONE so clicks pass through safely) -->
+    <canvas id="fireworks-canvas" class="fixed inset-0 pointer-events-none z-20"></canvas>
+
+    <!-- Pitch Blackout Overlay Screen -->
+    <div id="blackout-layer" class="fixed inset-0 bg-black opacity-0 pointer-events-none z-25"></div>
+
+    <!-- Navigation Header -->
+    <nav class="fixed top-3 left-3 right-3 z-40 flex justify-between items-center max-w-5xl mx-auto pointer-events-none">
+        <div class="pointer-events-auto glass px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full flex items-center gap-2 border border-white/10 shadow-lg">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs sm:text-sm font-semibold tracking-wide text-slate-200">Sanu's 16th ✨</span>
+        </div>
+
+        <div class="pointer-events-auto flex items-center gap-2">
+            <button id="music-toggle-btn" onclick="toggleMusic()" class="glass px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-white/10 transition-all text-amber-300 border border-amber-400/30 active:scale-90 shadow-lg flex items-center gap-2 text-xs sm:text-sm font-medium cursor-pointer">
+                <i data-lucide="music" class="w-4 h-4 text-amber-400"></i>
+                <span id="music-btn-label">Play Music 🎵</span>
+            </button>
+            
+            <button id="preview-toggle-btn" onclick="toggleModePreview()" class="glass px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-amber-500/20 text-xs sm:text-sm font-medium text-amber-300 border border-amber-500/30 transition-all flex items-center gap-1.5 shadow-lg active:scale-95 cursor-pointer">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span id="preview-btn-text">Preview Celebration</span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="countdown-view" class="relative z-30 min-h-screen flex flex-col items-center justify-center px-4 py-16 text-center pointer-events-auto">
+        
+        <div class="glass-gold px-4 py-2 rounded-full mb-6 inline-flex items-center gap-2 text-amber-300 text-xs sm:text-sm font-medium animate-float shadow-[0_0_20px_rgba(251,191,36,0.15)]">
+            <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i>
+            <span>Unlocks on September 22! 🎂</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-6xl font-black tracking-tight mb-3">
+            Counting Down to <br>
+            <span class="bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent font-cursive text-4xl sm:text-7xl neon-text-gold">
+                Sanu's 16th Birthday
+            </span>
+        </h1>
+        
+        <p class="text-slate-400 text-sm sm:text-base max-w-md mb-8 font-light leading-relaxed">
+            Dark chocolate cake, sparkling star fountains, and dazzling firecrackers await under the starry night!
+        </p>
+
+        <!-- Countdown Timer -->
+        <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-lg w-full mb-8">
+            <div class="glass p-3 sm:p-5 rounded-xl flex flex-col items-center justify-center border border-amber-500/20">
+                <span id="timer-days" class="text-2xl sm:text-5xl font-black text-amber-400">00</span>
+                <span class="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 mt-1 font-semibold">Days</span>
+            </div>
+            <div class="glass p-3 sm:p-5 rounded-xl flex flex-col items-center justify-center border border-pink-500/20">
+                <span id="timer-hours" class="text-2xl sm:text-5xl font-black text-pink-400">00</span>
+                <span class="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 mt-1 font-semibold">Hours</span>
+            </div>
+            <div class="glass p-3 sm:p-5 rounded-xl flex flex-col items-center justify-center border border-purple-500/20">
+                <span id="timer-minutes" class="text-2xl sm:text-5xl font-black text-purple-400">00</span>
+                <span class="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 mt-1 font-semibold">Mins</span>
+            </div>
+            <div class="glass p-3 sm:p-5 rounded-xl flex flex-col items-center justify-center border border-cyan-500/20">
+                <span id="timer-seconds" class="text-2xl sm:text-5xl font-black text-cyan-400">00</span>
+                <span class="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 mt-1 font-semibold">Secs</span>
+            </div>
+        </div>
+
+        <!-- UNLOCK EARLY BUTTON -->
+        <button id="unlock-early-btn" onclick="unlockCelebration()" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600 text-slate-950 font-extrabold text-sm sm:text-base hover:opacity-95 transition-all shadow-[0_0_30px_rgba(251,191,36,0.5)] active:scale-95 flex items-center gap-2.5 cursor-pointer z-40">
+            <i data-lucide="sparkles" class="w-5 h-5 fill-current"></i>
+            <span>Unlock Party Early ✨</span>
+        </button>
+    </main>
+
+    <div id="celebration-view" class="hidden relative z-30 min-h-screen pointer-events-auto">
+        
+        <header class="pt-20 sm:pt-28 pb-6 px-4 text-center max-w-4xl mx-auto relative">
+            <div class="inline-block glass px-4 py-1.5 rounded-full text-pink-400 text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3 border border-pink-500/30">
+                👑 Sweet Sixteen Celebration 👑
+            </div>
+
+            <h1 class="text-4xl sm:text-7xl font-black mb-3 tracking-tight leading-tight">
+                Happy 16th Birthday, <br>
+                <span class="bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent font-cursive text-5xl sm:text-8xl neon-text-pink inline-block mt-1">
+                    Sanu! ✨
+                </span>
+            </h1>
+
+            <p class="text-slate-300 text-sm sm:text-lg font-light max-w-xl mx-auto leading-relaxed">
+                Click anywhere on the open night sky to launch custom rockets!
+            </p>
+
+            <!-- Firecrackers Quick Controls Bar -->
+            <div class="mt-5 flex flex-wrap justify-center gap-2.5 relative z-40">
+                <button onclick="launchGrandFinale()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-pink-500 text-slate-950 font-bold text-xs sm:text-sm hover:opacity-95 transition-all shadow-[0_0_20px_rgba(251,191,36,0.4)] active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                    <i data-lucide="flame" class="w-4 h-4 fill-current"></i>
+                    <span>Grand Fireworks Finale 🎆</span>
+                </button>
+                <button onclick="triggerFlowerpotSparklers()" class="glass px-4 py-2.5 rounded-full text-amber-300 text-xs sm:text-sm border border-amber-500/40 hover:bg-amber-500/10 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                    <span>Ground Sparklers 💥</span>
+                </button>
+                <button onclick="triggerConfettiShower()" class="glass px-4 py-2.5 rounded-full text-pink-300 text-xs sm:text-sm border border-pink-500/40 hover:bg-pink-500/10 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                    <i data-lucide="party-popper" class="w-4 h-4 text-pink-400"></i>
+                    <span>Confetti Burst 🎉</span>
+                </button>
+            </div>
+        </header>
+
+        <section class="max-w-2xl mx-auto px-4 py-4">
+            <div class="glass p-6 sm:p-10 rounded-3xl border border-white/10 text-center relative shadow-2xl z-40">
+                
+                <h2 class="text-2xl sm:text-3xl font-bold text-amber-300 font-cursive mb-1">Blow Out Sanu's 16 Candles 🕯️</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mb-6">Tap individual flames, use the Blow button, or enable your Microphone sensor!</p>
+
+                <div class="relative w-64 sm:w-80 h-60 sm:h-68 mx-auto my-2 flex flex-col items-center justify-end">
+                    
+                    <!-- 16 Candles Wrapper -->
+                    <div id="candles-container" class="absolute top-4 left-0 right-0 z-30 flex justify-center items-end gap-1 sm:gap-1.5 px-2">
+                        <!-- Candles generated dynamically -->
+                    </div>
+
+                    <!-- Dark Chocolate Cake Top Layer -->
+                    <div class="w-44 sm:w-56 h-16 sm:h-20 bg-gradient-to-r from-chocMid via-chocDark to-chocMid rounded-t-2xl relative shadow-md z-20 flex justify-around items-end pb-2 overflow-hidden border-t-2 border-amber-900/60">
+                        <div class="absolute inset-x-0 top-0 h-5 bg-chocGlaze rounded-b-xl opacity-90"></div>
+                        <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-rose-600 shadow-md border border-rose-400 z-10"></div>
+                        <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-rose-600 shadow-md border border-rose-400 z-10"></div>
+                        <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-rose-600 shadow-md border border-rose-400 z-10"></div>
+                    </div>
+
+                    <!-- Dark Chocolate Middle Tier -->
+                    <div class="w-52 sm:w-64 h-16 sm:h-20 bg-gradient-to-r from-chocLight via-chocMid to-chocLight rounded-t-xl relative shadow-lg z-10 flex justify-center items-center border-t-2 border-amber-950">
+                        <div class="absolute inset-x-0 top-0 h-4 bg-chocGlaze/80 rounded-b-lg"></div>
+                        <span class="text-amber-200/90 font-cursive text-xl sm:text-2xl font-bold tracking-widest drop-shadow">Sweet 16</span>
+                    </div>
+
+                    <!-- Dark Chocolate Bottom Base Tier -->
+                    <div class="w-60 sm:w-76 h-14 sm:h-16 bg-gradient-to-r from-chocMid via-chocDark to-chocMid rounded-t-xl relative shadow-2xl z-0 border-b-4 border-black">
+                        <div class="absolute inset-x-0 top-0 h-3 bg-chocGlaze rounded-b-md"></div>
+                        <div class="flex justify-around items-center h-full px-4">
+                            <span class="w-1.5 h-1.5 bg-amber-200/40 rounded-full"></span>
+                            <span class="w-1.5 h-1.5 bg-pink-400/40 rounded-full"></span>
+                            <span class="w-1.5 h-1.5 bg-amber-200/40 rounded-full"></span>
+                            <span class="w-1.5 h-1.5 bg-pink-400/40 rounded-full"></span>
+                        </div>
+                    </div>
+
+                    <!-- Serving Plate -->
+                    <div class="w-68 sm:w-84 h-3.5 bg-gradient-to-r from-slate-300 via-slate-100 to-slate-300 rounded-full shadow-2xl border-t border-white"></div>
+                </div>
+
+                <!-- Candle Blow Buttons -->
+                <div class="mt-6 flex flex-wrap justify-center gap-2.5 relative z-40">
+                    <button id="blow-btn" onclick="blowOutCandles()" class="px-5 py-2.5 sm:px-6 sm:py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-xs sm:text-sm hover:opacity-95 transition-all shadow-lg active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                        <i data-lucide="wind" class="w-4 h-4"></i>
+                        <span>Blow Out Candles 🌬️</span>
+                    </button>
+                    <button id="mic-btn" onclick="enableMicBlowDetection()" class="px-4 py-2.5 rounded-full glass text-amber-300 text-xs sm:text-sm border border-amber-500/30 hover:bg-amber-500/10 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i data-lucide="mic" class="w-4 h-4"></i>
+                        <span id="mic-btn-text">Mic Sensor</span>
+                    </button>
+                    <button id="relight-btn" onclick="relightCandles()" class="px-4 py-2.5 rounded-full glass text-slate-300 text-xs sm:text-sm transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+                        <span>Relight</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-5xl mx-auto px-4 py-6 relative z-40">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-amber-200 via-pink-300 to-purple-300 bg-clip-text text-transparent mb-2">
+                    Sweet Sixteen Wishes 💖
+                </h2>
+                <p class="text-slate-400 text-xs sm:text-sm">Special moments & birthday messages for Sanu!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div class="glass-card rounded-2xl p-5 relative border border-white/10 hover:border-pink-500/40 shadow-xl transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400 mb-3 border border-pink-500/30">
+                        <i data-lucide="heart" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">Sweet 16 Milestone</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                        Turning 16 is a golden step into an exciting future. May your year be as rich and sweet as dark chocolate!
+                    </p>
+                    <span class="text-[10px] text-pink-400 font-semibold uppercase tracking-wider">Chapter 16</span>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 relative border border-white/10 hover:border-amber-500/40 shadow-xl transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 mb-3 border border-amber-500/30">
+                        <i data-lucide="star" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">Starry Night Magic</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                        Like the sparkling night sky, may your bright smile continue to warm hearts everywhere you go!
+                    </p>
+                    <span class="text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Shine On</span>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 relative border border-white/10 hover:border-purple-500/40 shadow-xl transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 mb-3 border border-purple-500/30">
+                        <i data-lucide="gift" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-1">Endless Dreams</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                        Reach for the highest stars! May every wish you make today come true in extraordinary ways.
+                    </p>
+                    <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-wider">Dream Big</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-2xl mx-auto px-4 py-6 relative z-40">
+            <div class="glass p-6 sm:p-8 rounded-3xl border border-white/10 text-center shadow-xl">
+                <h2 class="text-2xl font-bold mb-1 text-slate-100">Sanu's Night Wishing Well ✨</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mb-5">Leave a birthday message for Sanu below!</p>
+
+                <div class="flex flex-col sm:flex-row gap-2.5 max-w-lg mx-auto mb-6">
+                    <input id="wish-input" type="text" placeholder="Type your special birthday wish..." class="flex-1 glass px-4 py-3 rounded-full text-slate-100 placeholder-slate-500 text-xs sm:text-sm border border-white/20 focus:outline-none focus:border-amber-400">
+                    <button onclick="addCustomWish()" class="px-5 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm transition-all active:scale-95 flex items-center justify-center gap-1 cursor-pointer">
+                        <span>Send</span>
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <div id="wishes-feed" class="space-y-3 text-left">
+                    <div class="glass-card p-3.5 rounded-xl border border-white/10">
+                        <p class="text-amber-200 font-medium text-xs sm:text-sm">"Happiest 16th Birthday Sanu! Hope your dark chocolate cake is super delicious! 🎉"</p>
+                        <span class="text-[10px] text-slate-400 block mt-1">— Warmest Wishes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-8 text-center text-slate-500 text-xs relative z-40">
+            <p>Made with ❤️ for Sanu's 16th Birthday • September 22</p>
+        </footer>
+    </div>
+
+    <!-- GRAND BIRTHDAY POPUP MODAL -->
+    <div id="birthday-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+        <div class="glass p-8 sm:p-12 rounded-3xl border border-amber-400/50 text-center max-w-lg w-full pop-in relative shadow-[0_0_80px_rgba(251,191,36,0.3)] pointer-events-auto">
+            
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 flex items-center justify-center shadow-lg animate-bounce">
+                <i data-lucide="party-popper" class="w-10 h-10 text-white"></i>
+            </div>
+
+            <h2 class="text-4xl sm:text-6xl font-black mb-2 bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent font-cursive">
+                HAPPY BIRTHDAY SANU! 🎉
+            </h2>
+
+            <p class="text-amber-200 font-semibold text-lg sm:text-xl mb-4">
+                👑 Sweet 16 & Fabulous! 👑
+            </p>
+
+            <p class="text-slate-300 text-xs sm:text-base leading-relaxed mb-8">
+                May your 16th year be filled with pure magic, endless dark chocolate treats, glowing starlight, and grand achievements!
+            </p>
+
+            <button onclick="closeBirthdayModal()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600 text-slate-950 font-bold text-sm sm:text-base shadow-lg hover:opacity-95 active:scale-95 transition-all cursor-pointer">
+                Celebrate Birthday Again ✨
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let isAudioPlaying = false;
+        let audioCtx = null;
+        let musicTimer = null;
+        let isPreviewMode = false;
+        let micStream = null;
+        let micAnalyser = null;
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        function initStars() {
+            const container = document.getElementById('stars-container');
+            const count = window.innerWidth < 640 ? 70 : 130;
+            const existingStars = container.querySelectorAll('.star');
+            existingStars.forEach(s => s.remove());
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2.5 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                star.style.setProperty('--min-opacity', `${Math.random() * 0.4 + 0.1}`);
+                container.appendChild(star);
+            }
+        }
+
+        function generateCandles() {
+            const container = document.getElementById('candles-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 16; i++) {
+                const candle = document.createElement('div');
+                candle.className = 'flex flex-col items-center cursor-pointer group pointer-events-auto';
+                candle.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleSingleCandle(i);
+                };
+                candle.innerHTML = `
+                    <div id="flame-${i}" class="flame w-2 sm:w-2.5 h-4 sm:h-5 animate-flicker mb-0.5 shadow-[0_0_10px_rgba(255,165,0,0.9)] transition-all duration-300"></div>
+                    <div class="w-0.5 h-1.5 bg-slate-700"></div>
+                    <div class="w-2 sm:w-2.5 h-8 sm:h-10 bg-gradient-to-b from-amber-100 via-pink-200 to-purple-300 rounded-sm shadow-inner"></div>
+                `;
+                container.appendChild(candle);
+            }
+        }
+
+        function toggleSingleCandle(index) {
+            const flame = document.getElementById(`flame-${index}`);
+            if (flame) {
+                if (flame.classList.contains('opacity-0')) {
+                    flame.classList.remove('opacity-0', 'scale-0');
+                } else {
+                    flame.classList.add('opacity-0', 'scale-0');
+                }
+            }
+            checkAllCandlesBlown();
+        }
+
+        function relightCandles() {
+            for (let i = 1; i <= 16; i++) {
+                const flame = document.getElementById(`flame-${i}`);
+                if (flame) flame.classList.remove('opacity-0', 'scale-0');
+            }
+            document.getElementById('blackout-layer').style.opacity = '0';
+        }
+
+        function blowOutCandles() {
+            for (let i = 1; i <= 16; i++) {
+                const flame = document.getElementById(`flame-${i}`);
+                if (flame) flame.classList.add('opacity-0', 'scale-0');
+            }
+            triggerBlowingSequence();
+        }
+
+        function checkAllCandlesBlown() {
+            let allOff = true;
+            for (let i = 1; i <= 16; i++) {
+                const flame = document.getElementById(`flame-${i}`);
+                if (flame && !flame.classList.contains('opacity-0')) {
+                    allOff = false;
+                    break;
+                }
+            }
+            if (allOff) triggerBlowingSequence();
+        }
+
+        // SEQUENCE: Blow Candles -> Screen Blackout -> Firecrackers Burst -> Happy Birthday Popup
+        function triggerBlowingSequence() {
+            const blackout = document.getElementById('blackout-layer');
+            blackout.style.opacity = '0.96';
+
+            playWhistleSound();
+
+            setTimeout(() => {
+                launchGrandFinale();
+                triggerFlowerpotSparklers();
+            }, 800);
+
+            setTimeout(() => {
+                blackout.style.opacity = '0';
+                openBirthdayModal();
+            }, 4200);
+        }
+
+        function openBirthdayModal() {
+            const modal = document.getElementById('birthday-modal');
+            modal.classList.remove('hidden');
+            triggerConfettiShower();
+            playCelebrationCheer();
+            if (!isAudioPlaying) toggleMusic();
+        }
+
+        function closeBirthdayModal() {
+            document.getElementById('birthday-modal').classList.add('hidden');
+            relightCandles();
+            launchGrandFinale();
+        }
+
+        // Enhanced Microphone Sensor with cross-browser and mobile support
+        async function enableMicBlowDetection() {
+            const btnText = document.getElementById('mic-btn-text');
+            
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                btnText.innerText = 'HTTPS Required 🔒';
+                alert('Microphone access requires a secure connection (HTTPS).');
+                return;
+            }
+
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                const audioContext = new AudioCtxClass();
+                
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+
+                micAnalyser = audioContext.createAnalyser();
+                const source = audioContext.createMediaStreamSource(micStream);
+                source.connect(micAnalyser);
+                micAnalyser.fftSize = 256;
+                btnText.innerText = 'Listening... Blow! 🌬️';
+
+                const dataArray = new Uint8Array(micAnalyser.frequencyBinCount);
+                
+                function detectBlow() {
+                    if (!micAnalyser) return;
+                    micAnalyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                    let average = sum / dataArray.length;
+                    
+                    if (average > 42) {
+                        blowOutCandles();
+                        btnText.innerText = 'Blow Detected! ✨';
+                        if (micStream) micStream.getTracks().forEach(track => track.stop());
+                        return;
+                    }
+                    requestAnimationFrame(detectBlow);
+                }
+                detectBlow();
+            } catch (err) {
+                console.error(err);
+                btnText.innerText = 'Mic Denied ❌';
+            }
+        }
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date();
+            let currentYear = now.getFullYear();
+            let targetDate = new Date(currentYear, 8, 22, 0, 0, 0); // Sept 22
+
+            if (now > targetDate && (now.getMonth() !== 8 || now.getDate() !== 22)) {
+                if (now.getMonth() > 8 || (now.getMonth() === 8 && now.getDate() > 22)) {
+                    targetDate = new Date(currentYear + 1, 8, 22, 0, 0, 0);
+                }
+            }
+
+            const diff = targetDate - now;
+            const isBirthdayToday = (now.getMonth() === 8 && now.getDate() === 22);
+
+            if (isBirthdayToday || diff <= 0) {
+                if (!isPreviewMode) showCelebrationView();
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timer-days').innerText = String(days).padStart(2, '0');
+            document.getElementById('timer-hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('timer-minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('timer-seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        function showCelebrationView() {
+            document.getElementById('countdown-view').classList.add('hidden');
+            document.getElementById('celebration-view').classList.remove('hidden');
+            document.getElementById('preview-btn-text').innerText = 'Countdown View';
+        }
+
+        function showCountdownView() {
+            document.getElementById('celebration-view').classList.add('hidden');
+            document.getElementById('countdown-view').classList.remove('hidden');
+            document.getElementById('preview-btn-text').innerText = 'Preview Celebration';
+        }
+
+        function unlockCelebration() {
+            isPreviewMode = true;
+            showCelebrationView();
+            blowOutCandles();
+        }
+
+        function toggleModePreview() {
+            isPreviewMode = !isPreviewMode;
+            if (isPreviewMode) {
+                showCelebrationView();
+            } else {
+                showCountdownView();
+            }
+        }
+
+        // REALISTIC FIREWORKS & CRACKERS CANVAS ENGINE
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        let rockets = [];
+        let particles = [];
+        let ambientGlows = [];
+        let groundSparklers = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const FIREWORK_TYPES = ['PEONY', 'CHRYSANTHEMUM', 'WILLOW', 'RING', 'STROBE'];
+        const COLOR_PALETTES = [
+            ['#ff2a85', '#ff73b3', '#ffffff'], // Neon Pink & White
+            ['#fbbf24', '#f59e0b', '#fef3c7'], // Gold Dust & Amber
+            ['#06b6d4', '#38bdf8', '#e0f2fe'], // Electric Cyan
+            ['#a855f7', '#c084fc', '#fae8ff'], // Purple Violet
+            ['#10b981', '#34d399', '#ecfdf5'], // Emerald Green
+            ['#ef4444', '#fb7185', '#fff1f2']  // Deep Crimson
+        ];
+
+        class Rocket {
+            constructor(sx, sy, tx, ty, forcedPalette = null, forcedType = null) {
+                this.x = sx;
+                this.y = sy;
+                this.sx = sx;
+                this.sy = sy;
+                this.tx = tx;
+                this.ty = ty;
+                this.distanceToTarget = Math.hypot(tx - sx, ty - sy);
+                this.distanceTraveled = 0;
+                this.angle = Math.atan2(ty - sy, tx - sx);
+                this.speed = 4;
+                this.acceleration = 1.045;
+                this.trail = [];
+                this.trailLength = 6;
+                this.palette = forcedPalette || COLOR_PALETTES[Math.floor(Math.random() * COLOR_PALETTES.length)];
+                this.type = forcedType || FIREWORK_TYPES[Math.floor(Math.random() * FIREWORK_TYPES.length)];
+            }
+
+            update(index) {
+                this.trail.push({ x: this.x, y: this.y });
+                if (this.trail.length > this.trailLength) this.trail.shift();
+
+                this.speed *= this.acceleration;
+                const vx = Math.cos(this.angle) * this.speed;
+                const vy = Math.sin(this.angle) * this.speed;
+                this.distanceTraveled = Math.hypot(this.x + vx - this.sx, this.y + vy - this.sy);
+
+                if (Math.random() < 0.6) {
+                    particles.push(new RocketSpark(this.x, this.y, this.palette[0]));
+                }
+
+                if (this.distanceTraveled >= this.distanceToTarget) {
+                    explodeFirework(this.tx, this.ty, this.palette, this.type);
+                    rockets.splice(index, 1);
+                    playExplosionSound();
+                } else {
+                    this.x += vx;
+                    this.y += vy;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.trail[0] ? this.trail[0].x : this.x, this.trail[0] ? this.trail[0].y : this.y);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = this.palette[0];
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+            }
+        }
+
+        class RocketSpark {
+            constructor(x, y, color) {
+                this.x = x + (Math.random() - 0.5) * 4;
+                this.y = y + (Math.random() - 0.5) * 4;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = Math.random() * 2 + 1;
+                this.color = color;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.08 + 0.04;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update(index) {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                if (this.alpha <= 0) particles.splice(index, 1);
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        class FireworkParticle {
+            constructor(x, y, color, angle, speed, isWillow = false, isStrobe = false) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.color = color;
+                this.friction = isWillow ? 0.94 : 0.96;
+                this.gravity = isWillow ? 0.35 : 0.18;
+                this.alpha = 1;
+                this.decay = isWillow ? (Math.random() * 0.015 + 0.008) : (Math.random() * 0.03 + 0.012);
+                this.isWillow = isWillow;
+                this.isStrobe = isStrobe;
+                this.trail = [];
+                this.trailLength = isWillow ? 6 : 3;
+                this.flicker = 0;
+            }
+
+            update(index) {
+                this.trail.push({ x: this.x, y: this.y });
+                if (this.trail.length > this.trailLength) this.trail.shift();
+
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+
+                if (this.isStrobe) {
+                    this.flicker = Math.random() > 0.4 ? 1 : 0.2;
+                }
+
+                if (this.alpha <= 0) {
+                    particles.splice(index, 1);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                let currentAlpha = this.isStrobe ? this.alpha * this.flicker : this.alpha;
+                ctx.globalAlpha = Math.max(0, currentAlpha);
+
+                if (this.trail.length > 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.trail[0].x, this.trail[0].y);
+                    for (let p of this.trail) ctx.lineTo(p.x, p.y);
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = this.isWillow ? 1.8 : 1.2;
+                    ctx.stroke();
+                }
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.isWillow ? 1.8 : 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class AmbientGlow {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = 120;
+                this.alpha = 0.4;
+                this.decay = 0.03;
+            }
+
+            update(index) {
+                this.alpha -= this.decay;
+                if (this.alpha <= 0) ambientGlows.splice(index, 1);
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                grad.addColorStop(0, this.color);
+                grad.addColorStop(1, 'transparent');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class SparklerFountain {
+            constructor(x) {
+                this.x = x;
+                this.y = canvas.height;
+                this.active = true;
+                this.timer = 0;
+            }
+
+            update() {
+                this.timer++;
+                if (this.timer > 120) return;
+
+                for (let i = 0; i < 4; i++) {
+                    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.7;
+                    const speed = Math.random() * 11 + 4;
+                    const p = new FireworkParticle(this.x, this.y, '#fbbf24', angle, speed, true, false);
+                    p.gravity = 0.28;
+                    p.decay = 0.03;
+                    particles.push(p);
+                }
+            }
+        }
+
+        function explodeFirework(x, y, palette, type) {
+            ambientGlows.push(new AmbientGlow(x, y, palette[0]));
+            
+            let particleCount = type === 'WILLOW' ? 90 : 70;
+            if (type === 'RING') {
+                const ringRadius = 6.5;
+                for (let i = 0; i < 45; i++) {
+                    const angle = (i / 45) * Math.PI * 2;
+                    particles.push(new FireworkParticle(x, y, palette[0], angle, ringRadius));
+                    particles.push(new FireworkParticle(x, y, palette[1] || '#fff', angle, ringRadius * 0.65));
+                }
+            } else {
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = type === 'WILLOW' ? (Math.random() * 6 + 2) : (Math.random() * 9 + 1.5);
+                    const color = palette[Math.floor(Math.random() * palette.length)];
+                    const isWillow = (type === 'WILLOW');
+                    const isStrobe = (type === 'STROBE');
+                    particles.push(new FireworkParticle(x, y, color, angle, speed, isWillow, isStrobe));
+                }
+            }
+        }
+
+        function launchSingleRocket(tx, ty) {
+            const sx = tx + (Math.random() - 0.5) * 120;
+            const sy = canvas.height;
+            rockets.push(new Rocket(sx, sy, tx, ty));
+        }
+
+        function launchRocketFromSky(event) {
+            if (event.target.id === 'stars-container' || event.target.id === 'moon') {
+                launchSingleRocket(event.clientX, event.clientY);
+            }
+        }
+
+        function launchGrandFinale() {
+            let bursts = 0;
+            const interval = setInterval(() => {
+                const tx = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
+                const ty = Math.random() * (canvas.height * 0.45) + 60;
+                launchSingleRocket(tx, ty);
+                bursts++;
+                if (bursts > 18) clearInterval(interval);
+            }, 200);
+        }
+
+        function triggerFlowerpotSparklers() {
+            groundSparklers.push(new SparklerFountain(canvas.width * 0.15));
+            groundSparklers.push(new SparklerFountain(canvas.width * 0.85));
+            playWhistleSound();
+        }
+
+        function animateFireworksCanvas() {
+            requestAnimationFrame(animateFireworksCanvas);
+
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(3, 6, 17, 0.22)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.globalCompositeOperation = 'lighter';
+
+            for (let i = ambientGlows.length - 1; i >= 0; i--) {
+                ambientGlows[i].draw();
+                ambientGlows[i].update(i);
+            }
+
+            for (let i = rockets.length - 1; i >= 0; i--) {
+                rockets[i].draw();
+                rockets[i].update(i);
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].draw();
+                particles[i].update(i);
+            }
+
+            for (let i = groundSparklers.length - 1; i >= 0; i--) {
+                groundSparklers[i].update();
+                if (groundSparklers[i].timer > 120) groundSparklers.splice(i, 1);
+            }
+        }
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        const HAPPY_BIRTHDAY_MELODY = [
+            { note: 264.63, duration: 0.35, delay: 0.4 },
+            { note: 264.63, duration: 0.25, delay: 0.3 },
+            { note: 297.00, duration: 0.55, delay: 0.6 },
+            { note: 264.63, duration: 0.55, delay: 0.6 },
+            { note: 352.00, duration: 0.55, delay: 0.6 },
+            { note: 330.00, duration: 0.90, delay: 1.0 },
+
+            { note: 264.63, duration: 0.35, delay: 0.4 },
+            { note: 264.63, duration: 0.25, delay: 0.3 },
+            { note: 297.00, duration: 0.55, delay: 0.6 },
+            { note: 264.63, duration: 0.55, delay: 0.6 },
+            { note: 396.00, duration: 0.55, delay: 0.6 },
+            { note: 352.00, duration: 0.90, delay: 1.0 },
+
+            { note: 264.63, duration: 0.35, delay: 0.4 },
+            { note: 264.63, duration: 0.25, delay: 0.3 },
+            { note: 528.00, duration: 0.55, delay: 0.6 },
+            { note: 440.00, duration: 0.55, delay: 0.6 },
+            { note: 352.00, duration: 0.55, delay: 0.6 },
+            { note: 330.00, duration: 0.55, delay: 0.6 },
+            { note: 297.00, duration: 0.85, delay: 0.9 },
+
+            { note: 466.16, duration: 0.35, delay: 0.4 },
+            { note: 466.16, duration: 0.25, delay: 0.3 },
+            { note: 440.00, duration: 0.55, delay: 0.6 },
+            { note: 352.00, duration: 0.55, delay: 0.6 },
+            { note: 396.00, duration: 0.55, delay: 0.6 },
+            { note: 352.00, duration: 1.20, delay: 1.5 }
+        ];
+
+        let currentNoteIndex = 0;
+
+        function playSynthesizedNote(freq, duration) {
+            if (!audioCtx || !isAudioPlaying) return;
+            
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(freq / 2, audioCtx.currentTime);
+
+            const now = audioCtx.currentTime;
+            gain1.gain.setValueAtTime(0.01, now);
+            gain1.gain.linearRampToValueAtTime(0.22, now + 0.05);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+            gain2.gain.setValueAtTime(0.01, now);
+            gain2.gain.linearRampToValueAtTime(0.12, now + 0.05);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+
+            osc1.start(now);
+            osc1.stop(now + duration);
+            osc2.start(now);
+            osc2.stop(now + duration);
+        }
+
+        function scheduleNextSongNote() {
+            if (!isAudioPlaying) return;
+            const current = HAPPY_BIRTHDAY_MELODY[currentNoteIndex];
+            playSynthesizedNote(current.note, current.duration);
+
+            currentNoteIndex = (currentNoteIndex + 1) % HAPPY_BIRTHDAY_MELODY.length;
+            musicTimer = setTimeout(scheduleNextSongNote, current.delay * 1000);
+        }
+
+        function toggleMusic() {
+            initAudio();
+            isAudioPlaying = !isAudioPlaying;
+            const label = document.getElementById('music-btn-label');
+            const btn = document.getElementById('music-toggle-btn');
+
+            if (isAudioPlaying) {
+                label.innerText = 'Pause Song ⏸️';
+                btn.classList.add('bg-amber-400/20', 'border-amber-400', 'text-amber-200');
+                currentNoteIndex = 0;
+                scheduleNextSongNote();
+            } else {
+                label.innerText = 'Play Music 🎵';
+                btn.classList.remove('bg-amber-400/20', 'border-amber-400', 'text-amber-200');
+                if (musicTimer) clearTimeout(musicTimer);
+            }
+        }
+
+        function playExplosionSound() {
+            initAudio();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(25, audioCtx.currentTime + 0.35);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.35);
+        }
+
+        function playWhistleSound() {
+            initAudio();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(350, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.45);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.45);
+        }
+
+        function playCelebrationCheer() {
+            initAudio();
+            if (!audioCtx) return;
+            const notes = [264, 330, 396, 528];
+            notes.forEach((freq, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime + idx * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + idx * 0.1);
+                osc.stop(audioCtx.currentTime + idx * 0.1 + 0.4);
+            });
+        }
+
+        function triggerConfettiShower() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 95,
+                    spread: 75,
+                    origin: { y: 0.6 },
+                    colors: ['#fbbf24', '#ff2a85', '#a855f7', '#06b6d4', '#ffffff']
+                });
+            }
+        }
+
+        function addCustomWish() {
+            const input = document.getElementById('wish-input');
+            const text = input.value.trim();
+            if (text !== '') {
+                const feed = document.getElementById('wishes-feed');
+                const card = document.createElement('div');
+                card.className = "glass-card p-3.5 rounded-xl border border-amber-400/30 animate-bounce";
+                card.innerHTML = `<p class="text-amber-300 font-medium text-xs sm:text-sm">"${text}"</p><span class="text-[10px] text-slate-400 block mt-1">— Special Guest</span>`;
+                feed.prepend(card);
+                input.value = '';
+                triggerConfettiShower();
+            }
+        }
+
+        document.getElementById('moon').addEventListener('click', (e) => {
+            e.stopPropagation();
+            launchGrandFinale();
+        });
+
+        // Initialize elements as soon as DOM Content is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initStars();
+            generateCandles();
+            animateFireworksCanvas();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>
